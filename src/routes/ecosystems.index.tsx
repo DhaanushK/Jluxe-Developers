@@ -1,36 +1,38 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { ecosystems } from "@/lib/site";
-import { PageHeader, VisualPlaceholder } from "@/components/site/Layout";
+import { createFileRoute } from "@tanstack/react-router";
+import { EcosystemGrid } from "@/components/ecosystem/EcosystemGrid";
+import { EcosystemOverviewHero } from "@/components/ecosystem/EcosystemOverviewHero";
 import { pageMeta } from "@/lib/seo";
+import { loadPublishedEcosystems } from "@/server/content";
 
 export const Route = createFileRoute("/ecosystems/")({
+  loader: () => loadPublishedEcosystems(),
   head: () =>
-    pageMeta("Ecosystems", "The five JLuxe ecosystems: Real Estate, Business Solutions, Talent & Training, Boutique, and Interiors & Design."),
+    pageMeta(
+      "Ecosystems",
+      "The four JLUXE ecosystems: Real Estate, Business Solutions, Talent & Training, and Interiors & Design.",
+      "/ecosystems",
+    ),
   component: EcosystemsPage,
 });
 
 function EcosystemsPage() {
+  const ecosystems = Route.useLoaderData();
+
   return (
     <>
-      <PageHeader
-        eyebrow="Ecosystems"
-        title="Five ecosystems under one parent brand."
-        intro="Choose the area that matches your requirement. Each ecosystem has its own services and its own team."
-      />
-      <section className="mx-auto grid max-w-7xl gap-8 px-6 py-20 md:grid-cols-2 lg:grid-cols-3">
-        {ecosystems.map((e) => (
-          <Link key={e.slug} to="/ecosystems/$slug" params={{ slug: e.slug }} className="group flex flex-col border bg-card transition-colors hover:border-foreground/40">
-            <VisualPlaceholder index={e.index} label={e.short} className="aspect-[4/3]" />
-            <div className="flex flex-1 flex-col p-6">
-              <h2 className="text-2xl">{e.name}</h2>
-              <p className="mt-3 flex-1 text-muted-foreground">{e.summary}</p>
-              <span className="mt-6 flex items-center gap-2 text-sm font-semibold">
-                {e.cta} <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
-              </span>
-            </div>
-          </Link>
-        ))}
+      <EcosystemOverviewHero />
+      <EcosystemGrid ecosystems={ecosystems} />
+      <section className="border-y bg-ink text-ink-foreground">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-20 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] opacity-60">
+              One connected platform
+            </p>
+            <h2 className="mt-4 max-w-3xl text-4xl leading-[1.05] md:text-5xl">
+              Find the JLUXE team that fits your requirement.
+            </h2>
+          </div>
+        </div>
       </section>
     </>
   );

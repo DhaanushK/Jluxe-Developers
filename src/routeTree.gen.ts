@@ -15,9 +15,19 @@ import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as RealEstateRouteImport } from './routes/real-estate'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as EcosystemsIndexRouteImport } from './routes/ecosystems.index'
 import { Route as EcosystemsSlugRouteImport } from './routes/ecosystems.$slug'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as RealEstatePlotsRouteImport } from './routes/real-estate.plots'
+import { Route as RealEstateProjectsRouteImport } from './routes/real-estate.projects'
+import { Route as RealEstatePropertiesRouteImport } from './routes/real-estate.properties'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as RealEstatePlotsSlugRouteImport } from './routes/real-estate.plots.$slug'
+import { Route as RealEstateProjectsSlugRouteImport } from './routes/real-estate.projects.$slug'
+import { Route as RealEstatePropertiesSlugRouteImport } from './routes/real-estate.properties.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -49,9 +59,19 @@ const PortfolioRoute = PortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RealEstateRoute = RealEstateRouteImport.update({
+  id: '/real-estate',
+  path: '/real-estate',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestimonialsRoute = TestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EcosystemsIndexRoute = EcosystemsIndexRouteImport.update({
@@ -64,28 +84,89 @@ const EcosystemsSlugRoute = EcosystemsSlugRouteImport.update({
   path: '/ecosystems/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => InsightsRoute,
+} as any)
+const RealEstatePlotsRoute = RealEstatePlotsRouteImport.update({
+  id: '/plots',
+  path: '/plots',
+  getParentRoute: () => RealEstateRoute,
+} as any)
+const RealEstateProjectsRoute = RealEstateProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => RealEstateRoute,
+} as any)
+const RealEstatePropertiesRoute = RealEstatePropertiesRouteImport.update({
+  id: '/properties',
+  path: '/properties',
+  getParentRoute: () => RealEstateRoute,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const RealEstatePlotsSlugRoute = RealEstatePlotsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => RealEstatePlotsRoute,
+} as any)
+const RealEstateProjectsSlugRoute = RealEstateProjectsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => RealEstateProjectsRoute,
+} as any)
+const RealEstatePropertiesSlugRoute =
+  RealEstatePropertiesSlugRouteImport.update({
+    id: '/$slug',
+    path: '/$slug',
+    getParentRoute: () => RealEstatePropertiesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
-  '/insights': typeof InsightsRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/portfolio': typeof PortfolioRoute
-  '/services': typeof ServicesRoute
+  '/real-estate': typeof RealEstateRouteWithChildren
+  '/services': typeof ServicesRouteWithChildren
+  '/testimonials': typeof TestimonialsRoute
   '/ecosystems/$slug': typeof EcosystemsSlugRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/real-estate/plots': typeof RealEstatePlotsRouteWithChildren
+  '/real-estate/projects': typeof RealEstateProjectsRouteWithChildren
+  '/real-estate/properties': typeof RealEstatePropertiesRouteWithChildren
+  '/services/$slug': typeof ServicesSlugRoute
   '/ecosystems/': typeof EcosystemsIndexRoute
+  '/real-estate/plots/$slug': typeof RealEstatePlotsSlugRoute
+  '/real-estate/projects/$slug': typeof RealEstateProjectsSlugRoute
+  '/real-estate/properties/$slug': typeof RealEstatePropertiesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
-  '/insights': typeof InsightsRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/portfolio': typeof PortfolioRoute
-  '/services': typeof ServicesRoute
+  '/real-estate': typeof RealEstateRouteWithChildren
+  '/services': typeof ServicesRouteWithChildren
+  '/testimonials': typeof TestimonialsRoute
   '/ecosystems/$slug': typeof EcosystemsSlugRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/real-estate/plots': typeof RealEstatePlotsRouteWithChildren
+  '/real-estate/projects': typeof RealEstateProjectsRouteWithChildren
+  '/real-estate/properties': typeof RealEstatePropertiesRouteWithChildren
+  '/services/$slug': typeof ServicesSlugRoute
   '/ecosystems': typeof EcosystemsIndexRoute
+  '/real-estate/plots/$slug': typeof RealEstatePlotsSlugRoute
+  '/real-estate/projects/$slug': typeof RealEstateProjectsSlugRoute
+  '/real-estate/properties/$slug': typeof RealEstatePropertiesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -93,11 +174,21 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
-  '/insights': typeof InsightsRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/portfolio': typeof PortfolioRoute
-  '/services': typeof ServicesRoute
+  '/real-estate': typeof RealEstateRouteWithChildren
+  '/services': typeof ServicesRouteWithChildren
+  '/testimonials': typeof TestimonialsRoute
   '/ecosystems/$slug': typeof EcosystemsSlugRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/real-estate/plots': typeof RealEstatePlotsRouteWithChildren
+  '/real-estate/projects': typeof RealEstateProjectsRouteWithChildren
+  '/real-estate/properties': typeof RealEstatePropertiesRouteWithChildren
+  '/services/$slug': typeof ServicesSlugRoute
   '/ecosystems/': typeof EcosystemsIndexRoute
+  '/real-estate/plots/$slug': typeof RealEstatePlotsSlugRoute
+  '/real-estate/projects/$slug': typeof RealEstateProjectsSlugRoute
+  '/real-estate/properties/$slug': typeof RealEstatePropertiesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -108,9 +199,19 @@ export interface FileRouteTypes {
     | '/contact'
     | '/insights'
     | '/portfolio'
+    | '/real-estate'
     | '/services'
+    | '/testimonials'
     | '/ecosystems/$slug'
+    | '/insights/$slug'
+    | '/real-estate/plots'
+    | '/real-estate/projects'
+    | '/real-estate/properties'
+    | '/services/$slug'
     | '/ecosystems/'
+    | '/real-estate/plots/$slug'
+    | '/real-estate/projects/$slug'
+    | '/real-estate/properties/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -119,9 +220,19 @@ export interface FileRouteTypes {
     | '/contact'
     | '/insights'
     | '/portfolio'
+    | '/real-estate'
     | '/services'
+    | '/testimonials'
     | '/ecosystems/$slug'
+    | '/insights/$slug'
+    | '/real-estate/plots'
+    | '/real-estate/projects'
+    | '/real-estate/properties'
+    | '/services/$slug'
     | '/ecosystems'
+    | '/real-estate/plots/$slug'
+    | '/real-estate/projects/$slug'
+    | '/real-estate/properties/$slug'
   id:
     | '__root__'
     | '/'
@@ -130,9 +241,19 @@ export interface FileRouteTypes {
     | '/contact'
     | '/insights'
     | '/portfolio'
+    | '/real-estate'
     | '/services'
+    | '/testimonials'
     | '/ecosystems/$slug'
+    | '/insights/$slug'
+    | '/real-estate/plots'
+    | '/real-estate/projects'
+    | '/real-estate/properties'
+    | '/services/$slug'
     | '/ecosystems/'
+    | '/real-estate/plots/$slug'
+    | '/real-estate/projects/$slug'
+    | '/real-estate/properties/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -140,9 +261,11 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
-  InsightsRoute: typeof InsightsRoute
+  InsightsRoute: typeof InsightsRouteWithChildren
   PortfolioRoute: typeof PortfolioRoute
-  ServicesRoute: typeof ServicesRoute
+  RealEstateRoute: typeof RealEstateRouteWithChildren
+  ServicesRoute: typeof ServicesRouteWithChildren
+  TestimonialsRoute: typeof TestimonialsRoute
   EcosystemsSlugRoute: typeof EcosystemsSlugRoute
   EcosystemsIndexRoute: typeof EcosystemsIndexRoute
 }
@@ -191,11 +314,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/real-estate': {
+      id: '/real-estate'
+      path: '/real-estate'
+      fullPath: '/real-estate'
+      preLoaderRoute: typeof RealEstateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/testimonials': {
+      id: '/testimonials'
+      path: '/testimonials'
+      fullPath: '/testimonials'
+      preLoaderRoute: typeof TestimonialsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ecosystems/': {
@@ -212,17 +349,149 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EcosystemsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof InsightsRoute
+    }
+    '/real-estate/plots': {
+      id: '/real-estate/plots'
+      path: '/plots'
+      fullPath: '/real-estate/plots'
+      preLoaderRoute: typeof RealEstatePlotsRouteImport
+      parentRoute: typeof RealEstateRoute
+    }
+    '/real-estate/projects': {
+      id: '/real-estate/projects'
+      path: '/projects'
+      fullPath: '/real-estate/projects'
+      preLoaderRoute: typeof RealEstateProjectsRouteImport
+      parentRoute: typeof RealEstateRoute
+    }
+    '/real-estate/properties': {
+      id: '/real-estate/properties'
+      path: '/properties'
+      fullPath: '/real-estate/properties'
+      preLoaderRoute: typeof RealEstatePropertiesRouteImport
+      parentRoute: typeof RealEstateRoute
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/real-estate/plots/$slug': {
+      id: '/real-estate/plots/$slug'
+      path: '/$slug'
+      fullPath: '/real-estate/plots/$slug'
+      preLoaderRoute: typeof RealEstatePlotsSlugRouteImport
+      parentRoute: typeof RealEstatePlotsRoute
+    }
+    '/real-estate/projects/$slug': {
+      id: '/real-estate/projects/$slug'
+      path: '/$slug'
+      fullPath: '/real-estate/projects/$slug'
+      preLoaderRoute: typeof RealEstateProjectsSlugRouteImport
+      parentRoute: typeof RealEstateProjectsRoute
+    }
+    '/real-estate/properties/$slug': {
+      id: '/real-estate/properties/$slug'
+      path: '/$slug'
+      fullPath: '/real-estate/properties/$slug'
+      preLoaderRoute: typeof RealEstatePropertiesSlugRouteImport
+      parentRoute: typeof RealEstatePropertiesRoute
+    }
   }
 }
+
+interface InsightsRouteChildren {
+  InsightsSlugRoute: typeof InsightsSlugRoute
+}
+
+const InsightsRouteChildren: InsightsRouteChildren = {
+  InsightsSlugRoute: InsightsSlugRoute,
+}
+
+const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
+  InsightsRouteChildren,
+)
+
+interface RealEstatePlotsRouteChildren {
+  RealEstatePlotsSlugRoute: typeof RealEstatePlotsSlugRoute
+}
+
+const RealEstatePlotsRouteChildren: RealEstatePlotsRouteChildren = {
+  RealEstatePlotsSlugRoute: RealEstatePlotsSlugRoute,
+}
+
+const RealEstatePlotsRouteWithChildren = RealEstatePlotsRoute._addFileChildren(
+  RealEstatePlotsRouteChildren,
+)
+
+interface RealEstateProjectsRouteChildren {
+  RealEstateProjectsSlugRoute: typeof RealEstateProjectsSlugRoute
+}
+
+const RealEstateProjectsRouteChildren: RealEstateProjectsRouteChildren = {
+  RealEstateProjectsSlugRoute: RealEstateProjectsSlugRoute,
+}
+
+const RealEstateProjectsRouteWithChildren =
+  RealEstateProjectsRoute._addFileChildren(RealEstateProjectsRouteChildren)
+
+interface RealEstatePropertiesRouteChildren {
+  RealEstatePropertiesSlugRoute: typeof RealEstatePropertiesSlugRoute
+}
+
+const RealEstatePropertiesRouteChildren: RealEstatePropertiesRouteChildren = {
+  RealEstatePropertiesSlugRoute: RealEstatePropertiesSlugRoute,
+}
+
+const RealEstatePropertiesRouteWithChildren =
+  RealEstatePropertiesRoute._addFileChildren(RealEstatePropertiesRouteChildren)
+
+interface RealEstateRouteChildren {
+  RealEstatePlotsRoute: typeof RealEstatePlotsRouteWithChildren
+  RealEstateProjectsRoute: typeof RealEstateProjectsRouteWithChildren
+  RealEstatePropertiesRoute: typeof RealEstatePropertiesRouteWithChildren
+}
+
+const RealEstateRouteChildren: RealEstateRouteChildren = {
+  RealEstatePlotsRoute: RealEstatePlotsRouteWithChildren,
+  RealEstateProjectsRoute: RealEstateProjectsRouteWithChildren,
+  RealEstatePropertiesRoute: RealEstatePropertiesRouteWithChildren,
+}
+
+const RealEstateRouteWithChildren = RealEstateRoute._addFileChildren(
+  RealEstateRouteChildren,
+)
+
+interface ServicesRouteChildren {
+  ServicesSlugRoute: typeof ServicesSlugRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesSlugRoute: ServicesSlugRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
-  InsightsRoute: InsightsRoute,
+  InsightsRoute: InsightsRouteWithChildren,
   PortfolioRoute: PortfolioRoute,
-  ServicesRoute: ServicesRoute,
+  RealEstateRoute: RealEstateRouteWithChildren,
+  ServicesRoute: ServicesRouteWithChildren,
+  TestimonialsRoute: TestimonialsRoute,
   EcosystemsSlugRoute: EcosystemsSlugRoute,
   EcosystemsIndexRoute: EcosystemsIndexRoute,
 }

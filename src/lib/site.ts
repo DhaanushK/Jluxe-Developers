@@ -22,8 +22,12 @@ export type EcosystemSlug =
   | "real-estate"
   | "business-solutions"
   | "talent-training"
-  | "boutique"
   | "interiors-design";
+
+export type EcosystemService = {
+  name: string;
+  note?: string;
+};
 
 export type Ecosystem = {
   slug: EcosystemSlug;
@@ -32,7 +36,7 @@ export type Ecosystem = {
   short: string;
   summary: string;
   audience: string[];
-  services: { name: string; note?: string }[];
+  services: EcosystemService[];
   status: "active" | "coming-soon";
   cta: string;
 };
@@ -44,7 +48,7 @@ export const ecosystems: Ecosystem[] = [
     name: "JLuxe Real Estate",
     short: "Real Estate",
     summary:
-      "Property buying, selling, marketing, project promotion and channel partnerships, handled by one team from first enquiry to site visit.",
+      "Property buying, selling, project promotion and channel partnerships.",
     audience: ["Property buyers", "Property sellers", "Developers"],
     services: [
       { name: "Plot buying", note: "Guidance on plots that match your requirement and budget." },
@@ -62,7 +66,7 @@ export const ecosystems: Ecosystem[] = [
     name: "JLuxe Business Solutions",
     short: "Business Solutions",
     summary:
-      "Marketing, branding, lead generation, sales, business development, banking and events for businesses that want one accountable growth partner.",
+      "Marketing, branding, lead generation, sales, banking and events.",
     audience: ["Businesses", "Corporates", "Developers"],
     services: [
       { name: "Marketing" },
@@ -82,7 +86,7 @@ export const ecosystems: Ecosystem[] = [
     name: "JLuxe Talent & Training",
     short: "Talent & Training",
     summary:
-      "Recruitment, staffing, corporate training, college training and career counselling for employers, institutions and people building careers.",
+      "Recruitment, staffing, training and career counselling.",
     audience: ["Employers", "Educational institutions", "Professionals", "Students and job seekers"],
     services: [
       { name: "Recruitment" },
@@ -90,43 +94,168 @@ export const ecosystems: Ecosystem[] = [
       { name: "Corporate Training" },
       { name: "College Training" },
       { name: "Career Counselling" },
+      { name: "Careers" },
     ],
     status: "active",
     cta: "Explore Talent & Training",
   },
   {
-    slug: "boutique",
-    index: "04",
-    name: "JLuxe Boutique",
-    short: "Boutique",
-    summary:
-      "The Boutique is being prepared. Details will be shared here directly by JLuxe when it launches.",
-    audience: [],
-    services: [],
-    status: "coming-soon",
-    cta: "Get notified when this launches",
-  },
-  {
     slug: "interiors-design",
-    index: "05",
+    index: "04",
     name: "JLuxe Interiors and Design",
     short: "Interiors & Design",
     summary:
-      "Architecture, interior design, space planning, 2D and 3D design, project coordination and renovation for homes and workplaces.",
+      "Architecture, interiors, space planning, design and renovation.",
     audience: ["Homeowners", "Businesses", "Developers"],
     services: [
       { name: "Residential architecture" },
       { name: "Commercial architecture" },
       { name: "Home interiors" },
       { name: "Office interiors" },
+      { name: "Interior Design" },
       { name: "Space planning" },
-      { name: "2D / 3D design and elevations" },
+      { name: "2D / 3D Design" },
+      { name: "Elevations" },
       { name: "Project coordination" },
-      { name: "Renovation and space transformation" },
+      { name: "Renovation" },
+      { name: "Space transformation" },
     ],
     status: "active",
     cta: "Explore Interiors & Design",
   },
 ];
 
+export type Service = {
+  id: string;
+  slug: string;
+  name: string;
+  shortDescription?: string;
+  ecosystemSlugs: EcosystemSlug[];
+  audience?: string[];
+  offerings?: string[];
+  status: "active" | "coming-soon";
+  order: number;
+  isPublished: boolean;
+};
+
+const serviceSlugOverrides: Record<string, string> = {
+  "business-solutions:Sales & Business Development":
+    "sales-business-development",
+  "business-solutions:Channel Partner": "channel-partner",
+};
+
+const serviceAudiences: Record<string, string[]> = {
+  "real-estate:Plot buying": ["Property buyers"],
+  "real-estate:Plot selling": ["Property sellers"],
+  "real-estate:Project promotion": ["Developers"],
+  "real-estate:Channel partnerships": ["Developers"],
+  "real-estate:Site visits": ["Property buyers"],
+  "business-solutions:Marketing": ["Businesses", "Corporates"],
+  "business-solutions:Branding": ["Businesses", "Corporates"],
+  "business-solutions:Lead Generation": ["Businesses", "Corporates"],
+  "business-solutions:Sales & Business Development": [
+    "Businesses",
+    "Corporates",
+  ],
+  "business-solutions:Channel Partner": ["Developers"],
+  "business-solutions:Banking": ["Property buyers"],
+  "business-solutions:Event Management": ["Businesses", "Corporates"],
+  "talent-training:Recruitment": ["Employers"],
+  "talent-training:Staffing": ["Employers"],
+  "talent-training:Corporate Training": ["Employers"],
+  "talent-training:College Training": ["Educational institutions"],
+  "talent-training:Career Counselling": [
+    "Professionals",
+    "Students and job seekers",
+  ],
+};
+
+const serviceOfferings: Record<string, string[]> = {
+  "business-solutions:Channel Partner": [
+    "Project promotion",
+    "Lead generation",
+    "Customer enquiry management",
+    "Site visit coordination",
+    "Sales support",
+    "Follow-up & conversion support",
+    "Property presentations",
+    "Customer relationship management",
+    "Project marketing support",
+    "Sales performance support",
+  ],
+  "business-solutions:Banking": [
+    "Home loan assistance",
+    "Property loan coordination",
+    "Loan documentation guidance",
+    "Customer-bank coordination",
+    "Financial product awareness",
+    "Loan follow-up support",
+  ],
+  "business-solutions:Event Management": [
+    "Corporate events",
+    "Property launches",
+    "Sales meets",
+    "Dealer & channel partner meets",
+    "Customer engagement events",
+    "Training events",
+    "Seminars & workshops",
+    "College events",
+    "Promotional events",
+    "Employee engagement activities",
+  ],
+  "talent-training:Recruitment": [
+    "Permanent recruitment",
+    "Contract staffing",
+    "Executive search",
+    "Sales recruitment",
+    "Real estate recruitment",
+    "HR & administration recruitment",
+    "Customer relationship management recruitment",
+    "Finance & accounts recruitment",
+    "Engineering & project recruitment",
+    "Support staff recruitment",
+  ],
+  "talent-training:Staffing": [
+    "Permanent recruitment",
+    "Contract staffing",
+    "Executive search",
+    "Sales recruitment",
+    "Real estate recruitment",
+    "HR & administration recruitment",
+    "Customer relationship management recruitment",
+    "Finance & accounts recruitment",
+    "Engineering & project recruitment",
+    "Support staff recruitment",
+  ],
+};
+
+function serviceSlug(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/&/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export const services: Service[] = ecosystems.flatMap((ecosystem) =>
+  ecosystem.services.map((service, index) => {
+    const key = `${ecosystem.slug}:${service.name}`;
+
+    return {
+      id: key,
+      slug: serviceSlugOverrides[key] ?? serviceSlug(service.name),
+      name: service.name,
+      shortDescription: service.note,
+      ecosystemSlugs: [ecosystem.slug],
+      audience: serviceAudiences[key],
+      offerings: serviceOfferings[key],
+      status: ecosystem.status,
+      order: index + 1,
+      isPublished: ecosystem.status === "active",
+    };
+  }),
+);
+
 export const getEcosystem = (slug: string) => ecosystems.find((e) => e.slug === slug);
+
+export const getService = (slug: string) => services.find((service) => service.slug === slug);

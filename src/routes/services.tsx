@@ -1,35 +1,47 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ecosystems } from "@/lib/site";
-import { PageHeader } from "@/components/site/Layout";
+import { createFileRoute } from "@tanstack/react-router";
+import { ButtonLink, PageHeader } from "@/components/site/Layout";
+import { ServiceGrid } from "@/components/services/ServiceGrid";
 import { pageMeta } from "@/lib/seo";
+import { loadPublishedServices } from "@/server/content";
 
 export const Route = createFileRoute("/services")({
-  head: () => pageMeta("Services", "Every JLuxe service, grouped by ecosystem: real estate, marketing and sales, recruitment and training, architecture and interiors."),
+  loader: () => loadPublishedServices(),
+  head: () =>
+    pageMeta(
+      "Services",
+      "JLUXE services across real estate, business solutions, talent and training, and interiors and design.",
+      "/services",
+    ),
   component: Services,
 });
 
 function Services() {
-  const active = ecosystems.filter((e) => e.services.length);
+  const services = Route.useLoaderData();
+
   return (
     <>
-      <PageHeader eyebrow="Services" title="All services, grouped by ecosystem." />
-      <section className="mx-auto max-w-7xl divide-y px-6 py-12">
-        {active.map((e) => (
-          <div key={e.slug} className="grid gap-6 py-12 md:grid-cols-12">
-            <div className="md:col-span-4">
-              <span className="font-display text-2xl text-brass">{e.index}</span>
-              <h2 className="mt-2 text-3xl">{e.short}</h2>
-              <Link to="/ecosystems/$slug" params={{ slug: e.slug }} className="mt-4 inline-block text-sm font-semibold underline-offset-4 hover:underline">
-                {e.cta}
-              </Link>
-            </div>
-            <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2 md:col-span-8">
-              {e.services.map((s) => (
-                <li key={s.name} className="border-b pb-3 text-lg">{s.name}</li>
-              ))}
-            </ul>
+      <PageHeader
+        eyebrow="Services"
+        title="Services built around the JLUXE ecosystems."
+        intro="Explore the approved services available across JLUXE's active ecosystems."
+      />
+
+      <ServiceGrid services={services} />
+
+      <section className="border-t bg-ink text-ink-foreground">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-20 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] opacity-60">
+              Have a requirement?
+            </p>
+            <h2 className="mt-4 max-w-2xl text-4xl leading-[1.05] md:text-5xl">
+              Talk to the right JLUXE team.
+            </h2>
           </div>
-        ))}
+          <ButtonLink to="/contact" variant="outline" className="text-white">
+            Talk to JLUXE
+          </ButtonLink>
+        </div>
       </section>
     </>
   );

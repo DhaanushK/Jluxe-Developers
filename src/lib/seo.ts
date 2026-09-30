@@ -1,4 +1,8 @@
-export function pageMeta(title: string, description: string) {
+export function pageMeta(
+  title: string,
+  description: string,
+  canonicalPath?: string,
+) {
   const full = `${title} | JLuxe`;
   return {
     meta: [
@@ -9,5 +13,8 @@ export function pageMeta(title: string, description: string) {
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    ...(canonicalPath
+      ? { links: [{ rel: "canonical", href: canonicalPath }] }
+      : {}),
   };
 }

@@ -4,7 +4,7 @@ import { siteSettings } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
-  head: () => pageMeta("About", "Who JLuxe is, what it believes in, and how its five ecosystems connect people, properties, businesses and talent."),
+  head: () => pageMeta("About", "Who JLuxe is, what it believes in, and how its four ecosystems connect people, properties, businesses and talent."),
   component: About,
 });
 
