@@ -10,13 +10,8 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { InsightsPreview } from "@/components/home/InsightsPreview";
 import { FinalCTA } from "@/components/home/FinalCTA";
 import { pageMeta } from "@/lib/seo";
-import { loadFeaturedTestimonials, loadPublishedInsights } from "@/server/content";
 
 export const Route = createFileRoute("/")({
-  loader: async () => ({
-    testimonials: await loadFeaturedTestimonials(),
-    insights: await loadPublishedInsights(3),
-  }),
   head: () =>
     pageMeta(
       "Real Estate, Business Growth, Talent and Interiors",
@@ -26,8 +21,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { testimonials, insights } = Route.useLoaderData();
-
   return (
     <>
       {/* Hero */}
@@ -52,19 +45,10 @@ function Home() {
       <IntegratedSolutions />
 
       {/* Testimonials */}
-      <Testimonials testimonials={testimonials} />
+      <Testimonials testimonials={[]} />
 
       {/* Insights & updates */}
-      <InsightsPreview
-        insights={insights.map((insight) => ({
-          id: insight.id,
-          title: insight.title,
-          excerpt: insight.excerpt ?? "",
-          category: insight.category,
-          publishedAt: insight.publishedAt,
-          href: `/insights/${insight.slug}`,
-        }))}
-      />
+      <InsightsPreview insights={[]} />
 
       {/* Final CTA */}
       <FinalCTA />
